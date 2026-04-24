@@ -1,9 +1,11 @@
 ﻿using Aula_01.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Data;
+using ToDoList.Models.DTOs.Auth;
 using ToDoList.Models.DTOs.UsuarioDto;
 using ToDoList.Services;
 
@@ -45,5 +47,29 @@ namespace ToDoList.Controllers
                 return BadRequest(new { mensagem = ex.Message });
             }
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            // Busca o usuário pelo e-mail
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+            // Verifica se o usuário existe e se a senha (Hash) é válida
+            if (usuario == null || !BCrypt.Net.BCrypt.Verify(dto.Senha, usuario.PasswordHash))
+            {
+                return Unauthorized(new { message = "E-mail ou senha inválidos." });
+            }
+
+            // Gera o Token JWT usando o serviço que criamos
+            var token = _authService.GerarToken(usuario);
+
+            return Ok(new
+            {
+                token = token,
+                usuario = new { usuario.Id, usuario.Nome, usuario.Email }
+            });
+        }
+
     }
 }

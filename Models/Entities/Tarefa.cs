@@ -8,8 +8,10 @@
         public bool Concluida { get; set; } = false;
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
         public DateTime? AtualizadaEm { get; set; } = DateTime.UtcNow;
+        public ICollection<Comentario>? Comentarios { get; set; }
 
-        //Relação com o usuário
+        // Relação com o usuário 1 para N
+        // A tarefa pertence a um usuário
         public Guid UsuarioId { get; set; }
         public Usuario? Usuario { get; set; }
     }

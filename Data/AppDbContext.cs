@@ -11,6 +11,7 @@ namespace ToDoList.Data
 
         public DbSet<Tarefa> Tarefas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Comentario> Comentarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,18 @@ namespace ToDoList.Data
                 .WithMany(u => u.Tarefas)
                 .HasForeignKey(t => t.UsuarioId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Comentario>()
+                .HasOne(c => c.Tarefa)
+                .WithMany(t => t.Comentarios)
+                .HasForeignKey(c => c.TarefaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Comentario>()
+                .HasOne(c => c.Usuario)
+                .WithMany(u => u.Comentarios)
+                .HasForeignKey(c => c.UsuarioId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

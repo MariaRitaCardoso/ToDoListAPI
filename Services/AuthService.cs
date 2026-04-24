@@ -18,7 +18,7 @@ namespace ToDoList.Services
         public string GerarToken(Usuario usuario)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var secretKey = _config["Jwt: Key"] ?? throw new Exception("Chave JWT não foi configurada no appSettings");
+            var secretKey = _config["Jwt:Key"] ?? throw new Exception("Chave JWT não foi configurada no appSettings");
             var chave = Encoding.ASCII.GetBytes(secretKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor

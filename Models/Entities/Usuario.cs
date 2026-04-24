@@ -7,5 +7,7 @@
         public string Email { get; set; }
         public string PasswordHash { get; set; } = string.Empty;
         public ICollection<Tarefa> Tarefas { get; set; } = new List<Tarefa>();
+        public ICollection<Comentario>? Comentarios { get; set; }
+
     }
 }
