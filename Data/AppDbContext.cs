@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ToDoList.Models.DTOs;
 using ToDoList.Models.Entities;
 
 namespace ToDoList.Data
@@ -10,8 +9,6 @@ namespace ToDoList.Data
         {
         }
 
-        // Passo 1 foi criar as entidades (Models/Entities/Usuario.cs)
-        //Passo 2 é criar o DbContext (este arquivo) e registrar as 
         public DbSet<Tarefa> Tarefas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 

@@ -12,7 +12,7 @@ using ToDoList.Data;
 namespace ToDoList.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260326145505_addInitialDb")]
+    [Migration("20260326144902_addInitialDb")]
     partial class addInitialDb
     {
         /// <inheritdoc />
@@ -24,29 +24,6 @@ namespace ToDoList.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ToDoList.Models.DTOs.Usuario", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Usuarios");
-                });
 
             modelBuilder.Entity("ToDoList.Models.Entities.Tarefa", b =>
                 {
@@ -80,9 +57,32 @@ namespace ToDoList.Migrations
                     b.ToTable("Tarefas");
                 });
 
+            modelBuilder.Entity("ToDoList.Models.Entities.Usuario", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
+                });
+
             modelBuilder.Entity("ToDoList.Models.Entities.Tarefa", b =>
                 {
-                    b.HasOne("ToDoList.Models.DTOs.Usuario", "Usuario")
+                    b.HasOne("ToDoList.Models.Entities.Usuario", "Usuario")
                         .WithMany("Tarefas")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -91,7 +91,7 @@ namespace ToDoList.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("ToDoList.Models.DTOs.Usuario", b =>
+            modelBuilder.Entity("ToDoList.Models.Entities.Usuario", b =>
                 {
                     b.Navigation("Tarefas");
                 });
